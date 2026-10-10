@@ -636,6 +636,14 @@ export interface AddItemRequest {
    * [Only for ID local sellers] as a unique identifier for each standardized medicine, the medicine id can only be obtained offline
    */
   medicine_id?: number;
+  /**
+   * The ID of the Standardized Shop Product (SSP) to associate with the default model of the new item. The value must be greater than 0 when provided. If ssp_id is provided, cssp_id must also be provided.
+   */
+  ssp_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP) to associate with the default model of the new item. The value must be greater than 0 when provided. This field is required when ssp_id is provided.
+   */
+  cssp_id?: number;
 }
 /**
  * AddItem_AddItemPreOrder sub-interface for AddItemResponseData
@@ -1238,6 +1246,14 @@ export interface AddModelModel {
    * Pre-order information of this model.Notes: If don't set the DTS of this model, will use the DTS of the item by default.
    */
   pre_order?: AddModelPreOrder;
+  /**
+   * The ID of the Standardized Shop Product (SSP) to associate with the default model of the new item. The value must be greater than 0 when provided. If ssp_id is provided, cssp_id must also be provided.
+   */
+  ssp_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP) to associate with the default model of the new item. The value must be greater than 0 when provided. This field is required when ssp_id is provided.
+   */
+  cssp_id?: number;
 }
 /**
  * Request parameters for add_model
@@ -1898,6 +1914,14 @@ export interface BatchAddItemItem {
    * [Only for ID local sellers] as a unique identifier for each standardized medicine, the medicine id can only be obtained offline
    */
   medicine_id?: number;
+  /**
+   * The ID of the Standardized Shop Product (SSP) to associate with the default model of the new item. The value must be greater than 0 when provided. If ssp_id is provided, cssp_id must also be provided.
+   */
+  ssp_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP) to associate with the default model of the new item. The value must be greater than 0 when provided. This field is required when ssp_id is provided.
+   */
+  cssp_id?: number;
 }
 /**
  * Request parameters for batch_add_item
@@ -5646,6 +5670,14 @@ export interface GetModelListModel {
    * whether model is fulfillment by shopee
    */
   is_fulfillment_by_shopee?: boolean;
+  /**
+   * The ID of the Standardized Shop Product (SSP) to associate with the default model of the new item. The value must be greater than 0 when provided. If ssp_id is provided, cssp_id must also be provided.
+   */
+  ssp_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP) to associate with the default model of the new item. The value must be greater than 0 when provided. This field is required when ssp_id is provided.
+   */
+  cssp_id?: number;
 }
 /**
  * GetModelListVariationOption sub-interface for GetModelListStandardiseTierVariation
@@ -5986,6 +6018,311 @@ export interface GetSizeChartListResponseData {
  * Get new size chart list. Now only support local shop to use new size chart.
  */
 export type GetSizeChartListResponse = FetchResponse<GetSizeChartListResponseData>;
+/**
+ * Request parameters for get_ssp_detail
+ *
+ * Get the details of an SSP or CSSP. At least one of ssp_id and cssp_id is required, and cssp_id takes priority when both are provided.The response covers the product content such as the category path, attributes, brand and variations. Each entry in cssps is a country-specific SSP under the SSP, and its tier_indices point to the selected options of the parent tier_variation.
+ */
+export interface GetSspDetailRequest {
+  /**
+   * The ID of the Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP).
+   */
+  cssp_id?: number;
+}
+/**
+ * GetSspDetailCategoryPath sub-interface for GetSspDetailSspInfo
+ */
+export interface GetSspDetailCategoryPath {
+  /**
+   * The category ID.
+   */
+  category_id?: number;
+  /**
+   * The category name.
+   */
+  category_name?: string;
+  /**
+   * The localized display name.
+   */
+  display_name?: string;
+}
+/**
+ * GetSspDetailAttrValInfo sub-interface for GetSspDetailAttribute
+ */
+export interface GetSspDetailAttrValInfo {
+  /**
+   * The attribute value ID.
+   */
+  attr_val_id?: number;
+  /**
+   * The attribute value.
+   */
+  attr_val?: string;
+  /**
+   * The localized attribute value.
+   */
+  attr_val_display_name?: string;
+  /**
+   * A custom attribute value when applicable.
+   */
+  custom_value?: string;
+}
+/**
+ * GetSspDetailAttribute sub-interface for GetSspDetailSspInfo
+ */
+export interface GetSspDetailAttribute {
+  /**
+   * The attribute ID.
+   */
+  attr_id?: number;
+  /**
+   * The attribute name.
+   */
+  attr_name?: string;
+  /**
+   * The localized attribute name.
+   */
+  attr_display_name?: string;
+  /**
+   * The values of the attribute.
+   */
+  attr_val_info?: GetSspDetailAttrValInfo[];
+  /**
+   * The input type of the attribute.
+   */
+  input_type?: number;
+  /**
+   * The validator type of the attribute.
+   */
+  input_validator?: number;
+  /**
+   * The format type of the attribute.
+   */
+  format_type?: number;
+  /**
+   * The date-time format when the attribute is a date or time.
+   */
+  datetime_format?: number;
+}
+/**
+ * GetSspDetailBrand sub-interface for GetSspDetailSspInfo
+ */
+export interface GetSspDetailBrand {
+  /**
+   * The brand ID.
+   */
+  brand_id?: number;
+  /**
+   * The localized display name.
+   */
+  display_name?: string;
+}
+/**
+ * GetSspDetailTierVariation sub-interface for GetSspDetailSspInfo
+ */
+export interface GetSspDetailTierVariation {
+  /**
+   * The tier variation name.
+   */
+  name?: string;
+  /**
+   * The available tier variation options.
+   */
+  options?: string[];
+  /**
+   * Image identifiers associated with the SSP or CSSP.
+   */
+  images?: string[];
+}
+/**
+ * GetSspDetailCssp sub-interface for GetSspDetailSspInfo
+ */
+export interface GetSspDetailCssp {
+  /**
+   * The ID of the Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP).
+   */
+  cssp_id?: number;
+  /**
+   * The display title of the CSSP.
+   */
+  title?: string;
+  /**
+   * Image identifiers associated with the SSP or CSSP.
+   */
+  images?: string[];
+  /**
+   * The tier option indices identifying the CSSP variation.
+   */
+  tier_indices?: number[];
+  /**
+   * The CSSP description.
+   */
+  desc?: string;
+  /**
+   * The brand ID.
+   */
+  brand_id?: number;
+  /**
+   * The attributes associated with the SSP or CSSP.
+   */
+  attributes?: GetSspDetailAttribute[];
+  /**
+   * The tier variation definitions.
+   */
+  tier_variation?: GetSspDetailTierVariation[];
+  /**
+   * The brand name.
+   */
+  brand_name?: string;
+}
+/**
+ * GetSspDetailSspInfo sub-interface for GetSspDetailResponseData
+ */
+export interface GetSspDetailSspInfo {
+  /**
+   * The ID of the Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+  /**
+   * The display title of the SSP.
+   */
+  title?: string;
+  /**
+   * Image identifiers associated with the SSP or CSSP.
+   */
+  images?: string[];
+  /**
+   * The category hierarchy of the SSP.
+   */
+  category_path?: GetSspDetailCategoryPath[];
+  /**
+   * The SSP description.
+   */
+  description?: string;
+  /**
+   * The attributes associated with the SSP or CSSP.
+   */
+  attributes?: GetSspDetailAttribute[];
+  /**
+   * The SSP brand information.
+   */
+  brand?: GetSspDetailBrand;
+  /**
+   * The tier variation definitions.
+   */
+  tier_variation?: GetSspDetailTierVariation[];
+  /**
+   * The country-specific products under the SSP.
+   */
+  cssps?: GetSspDetailCssp[];
+  /**
+   * The SSP profile type.
+   */
+  profile_type?: number;
+}
+/**
+ * GetSspDetailResponseData sub-interface for GetSspDetailResponse
+ */
+export interface GetSspDetailResponseData {
+  /**
+   * The requested SSP details.
+   */
+  ssp_info?: GetSspDetailSspInfo;
+}
+/**
+ * Response payload for get_ssp_detail
+ *
+ * Get the details of an SSP or CSSP. At least one of ssp_id and cssp_id is required, and cssp_id takes priority when both are provided.The response covers the product content such as the category path, attributes, brand and variations. Each entry in cssps is a country-specific SSP under the SSP, and its tier_indices point to the selected options of the parent tier_variation.
+ */
+export type GetSspDetailResponse = FetchResponse<GetSspDetailResponseData>;
+/**
+ * Request parameters for get_ssp_recommendation
+ *
+ * Get the SSP enrollment recommendations of the authorized shop, separating items that can be enrolled automatically from items that may be enrolled after further action.auto_enroll_time is the automatic enrollment time in seconds as a future timestamp, returned for automatic enrollment only.
+ */
+export type GetSspRecommendationRequest = Record<string, never>;
+/**
+ * GetSspRecommendationModelCssp sub-interface for GetSspRecommendationAutoEnrollItem
+ */
+export interface GetSspRecommendationModelCssp {
+  /**
+   * The ID of the item model.
+   */
+  model_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP).
+   */
+  cssp_id?: number;
+  /**
+   * The ID of the Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+}
+/**
+ * GetSspRecommendationAutoEnrollItem sub-interface for GetSspRecommendationResponseData
+ */
+export interface GetSspRecommendationAutoEnrollItem {
+  /**
+   * The ID of the item.
+   */
+  item_id?: number;
+  /**
+   * The ID of the Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+  /**
+   * The model and CSSP mapping recommended for the item.
+   */
+  model_cssp?: GetSspRecommendationModelCssp;
+}
+/**
+ * GetSspRecommendationPossibleToBeEnrollItem sub-interface for GetSspRecommendationResponseData
+ */
+export interface GetSspRecommendationPossibleToBeEnrollItem {
+  /**
+   * The ID of the item.
+   */
+  item_id?: number;
+  /**
+   * The ID of the Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+  /**
+   * The model and CSSP mapping recommended for the item.
+   */
+  model_cssp?: GetSspRecommendationModelCssp;
+}
+/**
+ * GetSspRecommendationResponseData sub-interface for GetSspRecommendationResponse
+ */
+export interface GetSspRecommendationResponseData {
+  /**
+   * Items that are eligible for automatic SSP enrollment.
+   */
+  auto_enroll_items?: GetSspRecommendationAutoEnrollItem[];
+  /**
+   * Items that may be eligible for SSP enrollment.
+   */
+  possible_to_be_enroll_items?: GetSspRecommendationPossibleToBeEnrollItem[];
+  /**
+   * The automatic enrollment end time as a Unix timestamp in seconds. This field is meaningful for automatic-enrollment items and may be zero or absent otherwise.
+   */
+  auto_enroll_time?: number;
+}
+/**
+ * Response payload for get_ssp_recommendation
+ *
+ * Get the SSP enrollment recommendations of the authorized shop, separating items that can be enrolled automatically from items that may be enrolled after further action.auto_enroll_time is the automatic enrollment time in seconds as a future timestamp, returned for automatic enrollment only.
+ */
+export type GetSspRecommendationResponse = FetchResponse<GetSspRecommendationResponseData>;
 /**
  * Request parameters for get_variations
  *
@@ -6328,6 +6665,14 @@ export interface InitTierVariationModel {
    * Pre-order information of this model.Notes: If don't set the DTS of this model, will use the DTS of the item by default.
    */
   pre_order?: InitTierVariationPreOrder;
+  /**
+   * The ID of the Standardized Shop Product (SSP) to associate with the default model of the new item. The value must be greater than 0 when provided. If ssp_id is provided, cssp_id must also be provided.
+   */
+  ssp_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP) to associate with the default model of the new item. The value must be greater than 0 when provided. This field is required when ssp_id is provided.
+   */
+  cssp_id?: number;
 }
 /**
  * InitTierVariationVariationOption sub-interface for InitTierVariationStandardiseTierVariation
@@ -6370,7 +6715,7 @@ export interface InitTierVariationStandardiseTierVariation {
 /**
  * Request parameters for init_tier_variation
  *
- * This API allows you to update the tier structure of a product. Defining only color creates one tier, while color + size creates two tiers (maximum supported). Supported changes include: no tier ↔ one/two tiers, one tier ↔ two/no tier, and two tiers ↔ one/no tier. For details, see Developer Guide.  Please wait at least 5 seconds after creating an item before creating variants, as processing may be delayed.
+ * This API allows you to update the tier structure of a product. Defining only color creates one tier, while color + size creates two tiers (maximum supported). Supported changes include: no tier ↔ one/two tiers, one tier ↔ two/no tier, and two tiers ↔ one/no tier. For details, see Developer Guide. Please wait at least 5 seconds after creating an item before creating variants, as processing may be delayed.
  */
 export interface InitTierVariationRequest {
   /**
@@ -6489,6 +6834,14 @@ export interface InitTierVariation_InitTierVariationModel {
    * The dimension of this model.If don't set the dimension of this model, will use the dimension of item by default.
    */
   dimension?: InitTierVariation_InitTierVariationDimension;
+  /**
+   * The ID of the Standardized Shop Product (SSP) to associate with the default model of the new item. The value must be greater than 0 when provided. If ssp_id is provided, cssp_id must also be provided.
+   */
+  ssp_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP) to associate with the default model of the new item. The value must be greater than 0 when provided. This field is required when ssp_id is provided.
+   */
+  cssp_id?: number;
 }
 /**
  * InitTierVariationResponseData sub-interface for InitTierVariationResponse
@@ -6507,9 +6860,56 @@ export interface InitTierVariationResponseData {
 /**
  * Response payload for init_tier_variation
  *
- * This API allows you to update the tier structure of a product. Defining only color creates one tier, while color + size creates two tiers (maximum supported). Supported changes include: no tier ↔ one/two tiers, one tier ↔ two/no tier, and two tiers ↔ one/no tier. For details, see Developer Guide.  Please wait at least 5 seconds after creating an item before creating variants, as processing may be delayed.
+ * This API allows you to update the tier structure of a product. Defining only color creates one tier, while color + size creates two tiers (maximum supported). Supported changes include: no tier ↔ one/two tiers, one tier ↔ two/no tier, and two tiers ↔ one/no tier. For details, see Developer Guide. Please wait at least 5 seconds after creating an item before creating variants, as processing may be delayed.
  */
 export type InitTierVariationResponse = FetchResponse<InitTierVariationResponseData>;
+/**
+ * LinkItemToSspModelCsspPair sub-interface for LinkItemToSspRequest
+ */
+export interface LinkItemToSspModelCsspPair {
+  /**
+   * The ID of the item model.
+   */
+  model_id: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP).
+   */
+  cssp_id: number;
+  /**
+   * The optional ID of the parent Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+}
+/**
+ * Request parameters for link_item_to_ssp
+ *
+ * Link one or more models of an item to their country-specific SSPs. item_id and model_cssp_pairs are required, and each pair must contain model_id and cssp_id; ssp_id is optional.
+ */
+export interface LinkItemToSspRequest {
+  /**
+   * The ID of the item.
+   */
+  item_id: number;
+  /**
+   * Non-empty mappings between item models and CSSPs. Each mapping requires model_id and cssp_id; ssp_id is optional.
+   */
+  model_cssp_pairs: LinkItemToSspModelCsspPair[];
+}
+/**
+ * Response data payload for link_item_to_ssp
+ */
+export interface LinkItemToSspResponseData {
+  /**
+   * Warning details. Empty when no warning occurs.
+   */
+  warning?: string;
+}
+/**
+ * Response payload for link_item_to_ssp
+ *
+ * Link one or more models of an item to their country-specific SSPs. item_id and model_cssp_pairs are required, and each pair must contain model_id and cssp_id; ssp_id is optional.
+ */
+export type LinkItemToSspResponse = FetchResponse<LinkItemToSspResponseData>;
 /**
  * PublishItemToOutletShopSellerStock sub-interface for PublishItemToOutletShopModel
  */
@@ -6914,6 +7314,231 @@ export interface SearchItemResponseData {
  */
 export type SearchItemResponse = FetchResponse<SearchItemResponseData>;
 /**
+ * Request parameters for search_ssp_list
+ *
+ * Search SSPs by title or by image. At most 50 results are returned.When image_id_list is provided, the search is based on image similarity and title is ignored; otherwise title must contain at least three characters.
+ */
+export interface SearchSspListRequest {
+  /**
+   * Title text for SSP search. Required when image_id_list is empty and must contain at least three Unicode characters.
+   */
+  title?: string;
+  /**
+   * Image IDs used for visually similar SSP search. When at least one image ID is supplied, title is ignored.
+   */
+  image_id_list?: string[];
+}
+/**
+ * SearchSspListCategoryPath sub-interface for SearchSspListSsp
+ */
+export interface SearchSspListCategoryPath {
+  /**
+   * The category ID.
+   */
+  category_id?: number;
+  /**
+   * The category name.
+   */
+  category_name?: string;
+  /**
+   * The localized display name.
+   */
+  display_name?: string;
+}
+/**
+ * SearchSspListAttrValInfo sub-interface for SearchSspListAttribute
+ */
+export interface SearchSspListAttrValInfo {
+  /**
+   * The attribute value ID.
+   */
+  attr_val_id?: number;
+  /**
+   * Attribute metadata that may be omitted by the current search converter.
+   */
+  attr_val?: string;
+  /**
+   * Attribute metadata that may be omitted by the current search converter.
+   */
+  attr_val_display_name?: string;
+  /**
+   * A custom attribute value when applicable.
+   */
+  custom_value?: string;
+}
+/**
+ * SearchSspListAttribute sub-interface for SearchSspListSsp
+ */
+export interface SearchSspListAttribute {
+  /**
+   * The attribute ID.
+   */
+  attr_id?: number;
+  /**
+   * Attribute metadata that may be omitted by the current search converter.
+   */
+  attr_name?: string;
+  /**
+   * Attribute metadata that may be omitted by the current search converter.
+   */
+  attr_display_name?: string;
+  /**
+   * The values of the attribute.
+   */
+  attr_val_info?: SearchSspListAttrValInfo[];
+  /**
+   * Attribute metadata that may be omitted by the current search converter.
+   */
+  input_type?: number;
+  /**
+   * Attribute metadata that may be omitted by the current search converter.
+   */
+  input_validator?: number;
+  /**
+   * Attribute metadata that may be omitted by the current search converter.
+   */
+  format_type?: number;
+  /**
+   * Attribute metadata that may be omitted by the current search converter.
+   */
+  datetime_format?: number;
+}
+/**
+ * SearchSspListBrand sub-interface for SearchSspListSsp
+ */
+export interface SearchSspListBrand {
+  /**
+   * The brand ID.
+   */
+  brand_id?: number;
+  /**
+   * The localized display name.
+   */
+  display_name?: string;
+}
+/**
+ * SearchSspListTierVariation sub-interface for SearchSspListSsp
+ */
+export interface SearchSspListTierVariation {
+  /**
+   * The tier variation name.
+   */
+  name?: string;
+  /**
+   * The available tier variation options.
+   */
+  options?: string[];
+  /**
+   * Image identifiers associated with the SSP or CSSP.
+   */
+  images?: string[];
+}
+/**
+ * SearchSspListCssp sub-interface for SearchSspListSsp
+ */
+export interface SearchSspListCssp {
+  /**
+   * The ID of the Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP).
+   */
+  cssp_id?: number;
+  /**
+   * The display title of the CSSP returned by the search.
+   */
+  title?: string;
+  /**
+   * Image identifiers associated with the SSP or CSSP.
+   */
+  images?: string[];
+  /**
+   * The tier option indices identifying the CSSP variation.
+   */
+  tier_indices?: number[];
+  /**
+   * The CSSP description.
+   */
+  desc?: string;
+  /**
+   * The brand ID.
+   */
+  brand_id?: number;
+  /**
+   * The attributes associated with the SSP or CSSP.
+   */
+  attributes?: SearchSspListAttribute[];
+  /**
+   * The tier variation definitions.
+   */
+  tier_variation?: SearchSspListTierVariation[];
+  /**
+   * The brand name.
+   */
+  brand_name?: string;
+}
+/**
+ * SearchSspListSsp sub-interface for SearchSspListResponseData
+ */
+export interface SearchSspListSsp {
+  /**
+   * The ID of the Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+  /**
+   * The display title of the SSP returned by the search.
+   */
+  title?: string;
+  /**
+   * Image identifiers associated with the SSP or CSSP.
+   */
+  images?: string[];
+  /**
+   * The category hierarchy of the SSP.
+   */
+  category_path?: SearchSspListCategoryPath[];
+  /**
+   * The SSP description.
+   */
+  description?: string;
+  /**
+   * The attributes associated with the SSP or CSSP.
+   */
+  attributes?: SearchSspListAttribute[];
+  /**
+   * The SSP brand information.
+   */
+  brand?: SearchSspListBrand;
+  /**
+   * The tier variation definitions.
+   */
+  tier_variation?: SearchSspListTierVariation[];
+  /**
+   * The country-specific products under the SSP.
+   */
+  cssps?: SearchSspListCssp[];
+  /**
+   * The SSP profile type.
+   */
+  profile_type?: number;
+}
+/**
+ * SearchSspListResponseData sub-interface for SearchSspListResponse
+ */
+export interface SearchSspListResponseData {
+  /**
+   * The list of SSPs matching the search criteria.
+   */
+  ssp_list?: SearchSspListSsp[];
+}
+/**
+ * Response payload for search_ssp_list
+ *
+ * Search SSPs by title or by image. At most 50 results are returned.When image_id_list is provided, the search is based on image similarity and title is ignored; otherwise title must contain at least three characters.
+ */
+export type SearchSspListResponse = FetchResponse<SearchSspListResponseData>;
+/**
  * Request parameters for search_unpackaged_model_list
  *
  * Use this API to retrieve Unpackaged SKU ID information for items that toggle on logistics channel 30029.
@@ -6989,6 +7614,53 @@ export interface SearchUnpackagedModelListResponseData {
  */
 export type SearchUnpackagedModelListResponse =
   FetchResponse<SearchUnpackagedModelListResponseData>;
+/**
+ * UnlinkItemFromSspModelCsspPair sub-interface for UnlinkItemFromSspRequest
+ */
+export interface UnlinkItemFromSspModelCsspPair {
+  /**
+   * The ID of the item model.
+   */
+  model_id: number;
+  /**
+   * The ID of the country-specific Standardized Shop Product (CSSP).
+   */
+  cssp_id: number;
+  /**
+   * The optional ID of the parent Standardized Shop Product (SSP).
+   */
+  ssp_id?: number;
+}
+/**
+ * Request parameters for unlink_item_from_ssp
+ *
+ * Remove the SSP links of one or more models of an item. item_id and model_cssp_pairs are required, and each pair must contain model_id and cssp_id; ssp_id is optional.
+ */
+export interface UnlinkItemFromSspRequest {
+  /**
+   * The ID of the item.
+   */
+  item_id: number;
+  /**
+   * Non-empty mappings between item models and CSSPs. Each mapping requires model_id and cssp_id; ssp_id is optional.
+   */
+  model_cssp_pairs: UnlinkItemFromSspModelCsspPair[];
+}
+/**
+ * Response data payload for unlink_item_from_ssp
+ */
+export interface UnlinkItemFromSspResponseData {
+  /**
+   * Warning details. Empty when no warning occurs.
+   */
+  warning?: string;
+}
+/**
+ * Response payload for unlink_item_from_ssp
+ *
+ * Remove the SSP links of one or more models of an item. item_id and model_cssp_pairs are required, and each pair must contain model_id and cssp_id; ssp_id is optional.
+ */
+export type UnlinkItemFromSspResponse = FetchResponse<UnlinkItemFromSspResponseData>;
 /**
  * UnlistItemItem sub-interface for UnlistItemRequest
  */
